@@ -30,6 +30,7 @@ def show_all_users():
 @app.get('/users/<int:id>')
 def show_user():
     this_user = User.query.get(id)
+    breakpoint()
     return render_template('user-page.html', user=this_user)
 
 @app.get('/users/new')
@@ -49,8 +50,10 @@ def register_user():
 
 @app.get('/users/<int:id>/edit')
 def show_edit():
+    this_user = User.query.get(id)
+    return render_template("edit-user.html", user=this_user)
 
-@app.post('/users/<int:id>/edit')
-def edit_user():
+# @app.post('/users/<int:id>/edit')
+# def edit_user():
 
 
