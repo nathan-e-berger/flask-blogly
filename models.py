@@ -17,7 +17,7 @@ def connect_db(app):
 class User(db.Model):
     """User"""
 
-    __tablename__ = "user"
+    __tablename__ = "users"
 
     id = db.Column(
         db.Integer,
