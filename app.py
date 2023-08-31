@@ -4,7 +4,7 @@ import os
 
 from flask import Flask, redirect, render_template, request
 from flask_debugtoolbar import DebugToolbarExtension
-from models import connect_db, User, db
+from models import connect_db, User, db, Post
 
 
 
@@ -84,4 +84,20 @@ def delete_user(id):
     db.session.commit()
     return redirect('/')
 
+@app.get('/users/<int:id>/posts/new')
+def show_new_post_form(id):
+    """Show the form for making a new post"""
+    user = User.query.get_or_404(id)
+    return render_template('post-form.html', user=user)
+
+@app.post('/users/<int:id>/posts/new')
+def add_new_post(id):
+    # user = User.query.get_or_404(id)
+    post_title = request.form["post_title"]
+    post_content = request.form["post_content"]
+    post = Post(title=post_title, content=post_content, user_id=id)
+    db.session.add(post)
+    db.session.commit()
+
+    return redirect(f'/users/{id}')
 
