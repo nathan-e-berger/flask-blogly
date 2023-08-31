@@ -5,6 +5,7 @@ import os
 from flask import Flask, redirect, render_template, request
 from flask_debugtoolbar import DebugToolbarExtension
 from models import connect_db, User, db, Post
+import datetime
 
 
 
@@ -95,9 +96,30 @@ def add_new_post(id):
     # user = User.query.get_or_404(id)
     post_title = request.form["post_title"]
     post_content = request.form["post_content"]
-    post = Post(title=post_title, content=post_content, user_id=id)
+    created_at = datetime.datetime.now()
+    post = Post(title=post_title, content=post_content, user_id=id, created_at=created_at)
     db.session.add(post)
     db.session.commit()
 
     return redirect(f'/users/{id}')
+
+@app.get("/posts/<int:id>")
+def show_post(id):
+    post = Post.query.get_or_404(id)
+    return render_template("post-page.html", post=post)
+
+@app.get("/posts/<int:id>/edit")
+def show_edit_post(id):
+    post = Post.query.get_or_404(id)
+    return render_template("edit-post.html", post=post)
+
+@app.post("/posts/<int:id>/edit")
+def update_post(id):
+    post = Post.query.get_or_404(id)
+    post_title = request.form["post_title"]
+    post_content = request.form["post_content"]
+    post.title=post_title
+    post.content=post_content
+    db.session.commit()
+    return redirect(f"/posts/{id}")
 
