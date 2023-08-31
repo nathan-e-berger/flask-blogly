@@ -60,3 +60,25 @@ class UserViewTestCase(TestCase):
             html = resp.get_data(as_text=True)
             self.assertIn("test1_first", html)
             self.assertIn("test1_last", html)
+
+    def test_single_user(self):
+        """Tests the displaying of a single user's page"""
+        with self.client as c:
+            resp = c.get('/users/1')
+            self.assertEqual(resp.status_code, 200)
+            html = resp.get_data(as_text=True)
+            self.assertIn("Delete This User", html)
+
+    def test_new_user_form(self):
+        with self.client as c:
+            resp = c.get('/users/new')
+            html = resp.get_data(as_text=True)
+            self.assertIn("Add This User", html)
+            self.assertEqual(resp.status_code, 200)
+
+    def test_edit_form(self):
+        with self.client as c:
+            resp = c.get('/users/1/edit')
+            html = resp.get_data(as_text=True)
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn("Save", html)

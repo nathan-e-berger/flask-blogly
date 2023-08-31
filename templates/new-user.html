@@ -1,14 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<form>
-  <input name="first_name" type="text" required>
+<form method="POST">
+  <label for="first_name">First Name</label>
   <br>
-  <input name="last_name" type="text" required>
+  <input name="first_name" type="text" id="first_name" required>
   <br>
-  <input name="image_source" type="text">
+  <label for="last_name">Last Name</label>
   <br>
-  <input type="submit">
+  <input name="last_name" type="text" id="last_name" required>
+  <br>
+  <label for="iamge_source">Image URL</label>
+  <br>
+  <input name="image_source" id="iamge_source" type="text">
+  <br>
+  <input type="submit" value="Add This User">
 </form>
 
 {% endblock %}

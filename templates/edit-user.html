@@ -1,7 +1,7 @@
-{% extends base.html %}
+{% extends 'base.html' %}
 {% block content %}
 
-<form action="/users/{{ user.id }}/edit">
+<form action="/users/{{ user.id }}/edit" method="POST">
   <input name="first_name" type="text">
   <br>
   <input name="last_name" type="text">
@@ -11,4 +11,4 @@
   <button href="/users/{{ user.id }}">Cancel</button>
   <input type="submit" value="Save">
 </form>
-{% end block %}
+{% endblock %}
