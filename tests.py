@@ -64,7 +64,7 @@ class UserViewTestCase(TestCase):
     def test_single_user(self):
         """Tests the displaying of a single user's page"""
         with self.client as c:
-            resp = c.get('/users/1')
+            resp = c.get(f"/users/{test_user.id}")
             self.assertEqual(resp.status_code, 200)
             html = resp.get_data(as_text=True)
             self.assertIn("Delete This User", html)
@@ -80,7 +80,7 @@ class UserViewTestCase(TestCase):
     def test_edit_form(self):
         """Tests displaying edit user form"""
         with self.client as c:
-            resp = c.get('/users/1/edit')
+            resp = c.get(f'/users/{test_user.id}/edit')
             html = resp.get_data(as_text=True)
             self.assertEqual(resp.status_code, 200)
             self.assertIn("Save", html)

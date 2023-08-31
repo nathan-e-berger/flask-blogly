@@ -31,8 +31,8 @@ def show_all_users():
 @app.get('/users/<int:id>')
 def show_user(id):
     """Show an individual user's page."""
-    this_user = User.query.get_or_404(id)
-    return render_template('user-page.html', user=this_user)
+    user = User.query.get_or_404(id)
+    return render_template('user-page.html', user=user)
 
 @app.get('/users/new')
 def show_registration_form():
@@ -42,10 +42,10 @@ def show_registration_form():
 @app.post('/users/new')
 def register_user():
     """Handle form submission to add a new user to the database."""
-    first_name = request.form.get("first_name")
-    last_name = request.form.get("last_name")
-    image_url = request.form.get("image_source")
-
+    first_name = request.form["first_name"]
+    last_name = request.form["last_name"]
+    image_url = request.form["image_source"] or None
+    print("this is image_url", type(image_url))
     new_user = User(first_name=first_name, last_name=last_name, image_url=image_url)
     db.session.add(new_user)
     db.session.commit()
@@ -54,32 +54,33 @@ def register_user():
 @app.get('/users/<int:id>/edit')
 def show_edit(id):
     """Show a form to edit a user's page."""
-    this_user = User.query.get_or_404(id)
-    return render_template("edit-user.html", user=this_user)
+    user = User.query.get_or_404(id)
+    return render_template("edit-user.html", user=user)
 
 @app.post('/users/<int:id>/edit')
 def edit_user(id):
     """Handle form submission for edits to a user's page."""
-    this_user = User.query.get_or_404(id)
-    new_first = request.form.get("first_name")
-    new_last = request.form.get("last_name")
-    new_image = request.form.get("image_source")
+    user = User.query.get_or_404(id)
+    new_first = request.form["first_name"]
+    new_last = request.form["last_name"]
+    new_image = request.form["image_source"]
     if new_first:
-        this_user.first_name = new_first
+        user.first_name = new_first
     if new_last:
-        this_user.last_name = new_last
+        user.last_name = new_last
     if new_image:
-        this_user.image_url = new_image
+        user.image_url = new_image
 
     db.session.commit()
 
     return redirect(f'/users/{id}')
 
+
 @app.post('/users/<int:id>/delete')
 def delete_user(id):
     """Handle form submission for clicking the delete button on a user page."""
-    this_user = User.query.get_or_404(id)
-    db.session.delete(this_user)
+    user = User.query.get_or_404(id)
+    db.session.delete(user)
     db.session.commit()
     return redirect('/')
 

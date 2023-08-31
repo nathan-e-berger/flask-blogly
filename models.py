@@ -32,7 +32,6 @@ class User(db.Model):
         nullable=False,
         unique=False)
 
-    #do we need unique included?
 
     last_name = db.Column(
         db.String(50),
@@ -40,6 +39,7 @@ class User(db.Model):
         unique=False)
 
     image_url = db.Column(
-        db.String(1000),
-        nullable=True,
+        db.Text,
+        nullable=False,
         default = DEFAULT_IMAGE_URL)
+
