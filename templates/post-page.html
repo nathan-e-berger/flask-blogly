@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>{{ post.title }}!</h1>
+<h1>{{ post.title }}</h1>
 
 <p>{{ post.content }}</p>
 
@@ -8,6 +8,14 @@
 
 <form action="/posts/{{ post.id }}/edit">
   <input type="submit" value="Edit">
+</form>
+
+<form method="POST" action="/posts/{{ post.id }}/delete">
+  <input type="submit" value="Delete">
+</form>
+
+<form action="/users/{{ post.user.id }}">
+  <input type="submit" value="Back">
 </form>
 
 {% endblock %}

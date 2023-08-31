@@ -93,6 +93,7 @@ def show_new_post_form(id):
 
 @app.post('/users/<int:id>/posts/new')
 def add_new_post(id):
+    """Handle form submission and database update for making a new post."""
     # user = User.query.get_or_404(id)
     post_title = request.form["post_title"]
     post_content = request.form["post_content"]
@@ -105,16 +106,19 @@ def add_new_post(id):
 
 @app.get("/posts/<int:id>")
 def show_post(id):
+    """Show an individual post."""
     post = Post.query.get_or_404(id)
     return render_template("post-page.html", post=post)
 
 @app.get("/posts/<int:id>/edit")
 def show_edit_post(id):
+    """Show the form to edit an existing post."""
     post = Post.query.get_or_404(id)
     return render_template("edit-post.html", post=post)
 
 @app.post("/posts/<int:id>/edit")
 def update_post(id):
+    """Handle form submission and database update for editing an existing post."""
     post = Post.query.get_or_404(id)
     post_title = request.form["post_title"]
     post_content = request.form["post_content"]
@@ -122,4 +126,15 @@ def update_post(id):
     post.content=post_content
     db.session.commit()
     return redirect(f"/posts/{id}")
+
+@app.post('/posts/<int:id>/delete')
+def delete_post(id):
+    """Handle form submission and database update for deleting a post by
+    clicking the delete button."""
+    post = Post.query.get_or_404(id)
+    user = post.user
+    db.session.delete(post)
+    db.session.commit()
+
+    return redirect(f'/users/{user.id}')
 
