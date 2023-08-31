@@ -70,6 +70,7 @@ class UserViewTestCase(TestCase):
             self.assertIn("Delete This User", html)
 
     def test_new_user_form(self):
+        """Tests displaying new user form"""
         with self.client as c:
             resp = c.get('/users/new')
             html = resp.get_data(as_text=True)
@@ -77,8 +78,23 @@ class UserViewTestCase(TestCase):
             self.assertEqual(resp.status_code, 200)
 
     def test_edit_form(self):
+        """Tests displaying edit user form"""
         with self.client as c:
             resp = c.get('/users/1/edit')
             html = resp.get_data(as_text=True)
             self.assertEqual(resp.status_code, 200)
             self.assertIn("Save", html)
+
+    def test_register_user(self):
+        """Tests registering user"""
+        with self.client as c:
+            resp = c.post("/users/new", data={ "first_name":"Jason", "last_name":"Molina"}, follow_redirects=True)
+            html = resp.get_data(as_text=True)
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn("Jason", html)
+
+    def test_register_redirect(self):
+        """Test redirect after user registered"""
+        with self.client as c:
+            resp = c.post("/users/new", data={ "first_name":"Jason", "last_name":"Molina"}, follow_redirects=False)
+            self.assertEqual(resp.status_code, 302)
