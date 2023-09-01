@@ -68,6 +68,7 @@ class UserViewTestCase(TestCase):
         db.session.rollback()
 
     def test_list_users(self):
+        """Test showing all users"""
         with self.client as c:
             resp = c.get("/users")
             self.assertEqual(resp.status_code, 200)
@@ -128,4 +129,18 @@ class UserViewTestCase(TestCase):
             html = resp.get_data(as_text=True)
             self.assertEqual(resp.status_code, 200)
             self.assertIn("test2_content", html)
+
+    def test_update_post(self):
+        """Test the updating of an invididual post."""
+        with self.client as c:
+            resp = c.post(f"/posts/{self.post_id}/edit", data={"post_title":"test-title", "post_content": "post_content"}, follow_redirects=True)
+            html = resp.get_data(as_text=True)
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn("test-title", html)
+
+    def test_update_post_redirect(self):
+        """Test the redirect following editing a post."""
+        with self.client as c:
+            resp = c.post(f"/posts/{self.post_id}/edit", data={"post_title":"test-title", "post_content": "post_content"})
+            self.assertEqual(resp.status_code, 302)
 

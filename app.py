@@ -65,12 +65,12 @@ def edit_user(id):
     new_first = request.form["first_name"]
     new_last = request.form["last_name"]
     new_image = request.form["image_source"]
-    if new_first:
-        user.first_name = new_first
-    if new_last:
-        user.last_name = new_last
-    if new_image:
-        user.image_url = new_image
+    # if new_first:
+    user.first_name = new_first
+    # if new_last:
+    user.last_name = new_last
+    # if new_image:
+    user.image_url = new_image
 
     db.session.commit()
 
@@ -94,7 +94,6 @@ def show_new_post_form(id):
 @app.post('/users/<int:id>/posts/new')
 def add_new_post(id):
     """Handle form submission and database update for making a new post."""
-    # user = User.query.get_or_404(id)
     post_title = request.form["post_title"]
     post_content = request.form["post_content"]
     created_at = datetime.datetime.now()
