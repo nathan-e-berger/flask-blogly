@@ -69,8 +69,10 @@ class Post(db.Model):
 
     user_id = db.Column(
         db.Integer,
-        db.ForeignKey("users.id")
+        db.ForeignKey("users.id"),
+        nullable=False
     )
 
     user = db.relationship("User", backref="posts")
 
+# TODO:default date time like line 44

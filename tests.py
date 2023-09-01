@@ -113,7 +113,7 @@ class UserViewTestCase(TestCase):
         with self.client as c:
             resp = c.post("/users/new", data={ "first_name":"Jason", "last_name":"Molina", "image_source": DEFAULT_IMAGE_URL}, follow_redirects=False)
             self.assertEqual(resp.status_code, 302)
-
+#TODO: don't run over 80 char mark, indent
     def test_show_new_post_form(self):
         """Test the function showing the form for a new post"""
         with self.client as c:

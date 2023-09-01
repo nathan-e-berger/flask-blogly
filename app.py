@@ -65,11 +65,9 @@ def edit_user(id):
     new_first = request.form["first_name"]
     new_last = request.form["last_name"]
     new_image = request.form["image_source"]
-    # if new_first:
+
     user.first_name = new_first
-    # if new_last:
     user.last_name = new_last
-    # if new_image:
     user.image_url = new_image
 
     db.session.commit()
@@ -102,6 +100,7 @@ def add_new_post(id):
     db.session.commit()
 
     return redirect(f'/users/{id}')
+#TODO: refactor long line
 
 @app.get("/posts/<int:id>")
 def show_post(id):
